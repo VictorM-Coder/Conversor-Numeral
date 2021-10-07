@@ -1,8 +1,12 @@
 package dominio;
 
-public abstract class Conversor {
-    public abstract Numero toDecimal();
+public class Conversor {
+    protected   Numero toDecimal(){
+        return null;
+    }
 
-    public abstract Numero fromDecimal();
+    protected Numero fromDecimal(){
+        return null;
+    }
 
 }
