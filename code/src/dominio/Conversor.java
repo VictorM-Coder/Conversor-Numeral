@@ -2,7 +2,7 @@ package dominio;
 
 public class Conversor {
 
-    protected   Numero fromDecimal(Numero numeroDecimal, int baseSaida){
+    protected Numero fromDecimal(Numero numeroDecimal, int baseSaida){
         if (baseSaida <= 9){
             return fromDecimalBaseMenorQue10(numeroDecimal, baseSaida);
         }else{
@@ -27,20 +27,42 @@ public class Conversor {
 
     private Numero fromDecimalBaseMenorQue10(Numero numeroDecimal, int baseSaida){
         int dividendo = Integer.parseInt(numeroDecimal.getValor());
-        String restos = "";
+        String numConvertido = "";
 
         while(dividendo >= baseSaida){
-            restos += Integer.toString(dividendo%baseSaida);
+            numConvertido += Integer.toString(dividendo%baseSaida);
             dividendo/=baseSaida;
         }
 
-        return  new Numero(inverterString(restos), baseSaida);
+        numConvertido += dividendo;
+
+        return  new Numero(inverterString(numConvertido), baseSaida);
     }
 
     private Numero fromDecimalBaseMaiorQue10(Numero numeroDecimal, int baseSaida){
-        return null;
+        int dividendo = Integer.parseInt(numeroDecimal.getValor());
+        String numConvertido = "";
+
+        if (dividendo < baseSaida && dividendo> 9){
+            return new Numero(decimalToChar(dividendo) + "", baseSaida);
+        }
+
+        while(dividendo >= baseSaida){
+            int resto = dividendo%baseSaida;
+
+            if (resto >= 10){
+                numConvertido += decimalToChar(resto);
+            }else{
+                numConvertido += Integer.toString(dividendo%baseSaida);
+            }
+            dividendo/=baseSaida;
+        }
+        numConvertido += dividendo;
+
+        return  new Numero(inverterString(numConvertido), baseSaida);
     }
-    private int charToDecimal(char letra){
-        return (int) (letra - 55);
+    private char decimalToChar(int valor){
+        return (char) (valor + 55);//Retorna uma letra maiúscula
     }
+
 }
