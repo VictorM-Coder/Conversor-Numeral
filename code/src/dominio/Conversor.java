@@ -10,19 +10,25 @@ public class Conversor {
         }
     }
 
-    protected Numero toDecimal(){
-
-        return null;
+    protected Numero toDecimal(Numero numeroNaoDecimal){
+        int numConvertido = 0;
+        int base = numeroNaoDecimal.getBase();
+        for (int expoente = (numeroNaoDecimal.getValor().length()-1), posicao = 0; expoente >= 0; expoente--, posicao++){
+            int unidadeRodada;
+            if (base > 10){
+                unidadeRodada = charToDecimal(numeroNaoDecimal.getValor().charAt(posicao));
+            }else{
+                unidadeRodada = Integer.parseInt(String.valueOf(numeroNaoDecimal.getValor().charAt(posicao)));
+            }
+            numConvertido += equacaoN(unidadeRodada, base, expoente);
+        }
+        return new Numero(Integer.toString(numConvertido), 10);
     }
 
-    private String inverterString(String stringBase){
-        String stringInverse = "";
-
-        for(int cont = (stringBase.length()-1) ; cont >= 0; cont--){
-            stringInverse += "" + stringBase.charAt(cont);
-        }
-        return stringInverse;
-
+    //SUBMÉTODOS
+    private int equacaoN(int num1,int base, int expoente){
+        System.out.println(num1 + "*" + base + "^" + expoente);
+        return (int) (num1 * Math.pow(base, expoente));
     }
 
     private Numero fromDecimalBaseMenorQue10(Numero numeroDecimal, int baseSaida){
@@ -61,8 +67,29 @@ public class Conversor {
 
         return  new Numero(inverterString(numConvertido), baseSaida);
     }
+
+    //MÉTODOS AUXILIARES
     private char decimalToChar(int valor){
         return (char) (valor + 55);//Retorna uma letra maiúscula
+    }
+    private int charToDecimal(char valor){
+        int saida = ((int) valor) - 55;
+        if (saida >= 10){
+            return saida;
+        }else{
+            return Integer.parseInt(valor + "");
+        }
+
+    }
+
+    private String inverterString(String stringBase){
+        String stringInverse = "";
+
+        for(int cont = (stringBase.length()-1) ; cont >= 0; cont--){
+            stringInverse += "" + stringBase.charAt(cont);
+        }
+        return stringInverse;
+
     }
 
 }
