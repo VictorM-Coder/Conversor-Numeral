@@ -2,7 +2,11 @@ package dominio;
 
 public class Conversor {
 
-    protected Numero fromDecimal(Numero numeroDecimal, int baseSaida){
+    public Numero numberForBase(Numero numero, int baseSaida){
+        return this.fromDecimal(this.toDecimal(numero), baseSaida);
+    }
+
+    public Numero fromDecimal(Numero numeroDecimal, int baseSaida){
         if (baseSaida <= 9){
             return fromDecimalBaseMenorQue10(numeroDecimal, baseSaida);
         }else{
@@ -10,9 +14,10 @@ public class Conversor {
         }
     }
 
-    protected Numero toDecimal(Numero numeroNaoDecimal){
+    public Numero toDecimal(Numero numeroNaoDecimal){
         int numConvertido = 0;
         int base = numeroNaoDecimal.getBase();
+
         for (int expoente = (numeroNaoDecimal.getValor().length()-1), posicao = 0; expoente >= 0; expoente--, posicao++){
             int unidadeRodada;
             if (base > 10){
@@ -20,6 +25,7 @@ public class Conversor {
             }else{
                 unidadeRodada = Integer.parseInt(String.valueOf(numeroNaoDecimal.getValor().charAt(posicao)));
             }
+
             numConvertido += equacaoN(unidadeRodada, base, expoente);
         }
         return new Numero(Integer.toString(numConvertido), 10);
@@ -27,7 +33,6 @@ public class Conversor {
 
     //SUBMÉTODOS
     private int equacaoN(int num1,int base, int expoente){
-        System.out.println(num1 + "*" + base + "^" + expoente);
         return (int) (num1 * Math.pow(base, expoente));
     }
 
@@ -72,6 +77,7 @@ public class Conversor {
     private char decimalToChar(int valor){
         return (char) (valor + 55);//Retorna uma letra maiúscula
     }
+
     private int charToDecimal(char valor){
         int saida = ((int) valor) - 55;
         if (saida >= 10){
@@ -79,7 +85,6 @@ public class Conversor {
         }else{
             return Integer.parseInt(valor + "");
         }
-
     }
 
     private String inverterString(String stringBase){
@@ -89,7 +94,6 @@ public class Conversor {
             stringInverse += "" + stringBase.charAt(cont);
         }
         return stringInverse;
-
     }
 
 }
